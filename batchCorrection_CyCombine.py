@@ -1,17 +1,33 @@
+import time
 import subprocess
 import sys
-from pathlib import Path
-import pandas as pd
 import glob
 import time
 import os
+import random
+import pandas as pd
 
-meta_data_list = []
-panel_file_list = []
-file_location_list = []
+start = time.time()
+def data_input(file_type):
+    file_input = input(str(f'{file_type} file path:'))
+    while file_input is None:
+        if not os.path.exists(file_input):
+                raise FileNotFoundError("Path not found. Please enter a valid file path.")
+        else:
+            try:
+                print('File path accepted')
+                return file_input
+            except Exception as e:
+                print(f"Failed to read file: {e}")
+                file_input = None
+
+meta_data_filename = input(str('meta_data_file name with .csv ending'))
+meta_data_location = data_input('meta_data_file')
+panel_file_filename = input(str('meta_data_file name with .csv ending'))
+panel_file_location = data_input('panel_file')
+flow_dir_location = data_input('flow_dir')
 
 # find Rscript.exe
-
 def find_rscript():
     possible_directories = [
         r"C:\Users\mfbx2rdb\AppData\Local\Programs\R"
@@ -27,8 +43,8 @@ def find_rscript():
                 return rscript_paths[0]
     return None
 
+# Hard exit if there is no Rscript
 rscript_path = find_rscript()
-
 if rscript_path is not None:
     print(f"Rscript.exe found at: {rscript_path}")
 else:
@@ -38,10 +54,11 @@ else:
     time.sleep(5)
     sys.exit(1)
     
-############# PART 1 Initial Data Prep #############
-# R script as a Python f-string
+# Seed generation
+seed_number = random.seed(1000)
 
-dataPrep = f'''
+# Data preparation R script
+data_prep = f'''
 options(repos = c(CRAN = "https://cloud.r-project.org/")) 
 install.packages("cyCombine")
 install.packages("tidyverse")
@@ -49,11 +66,11 @@ library(cyCombine)
 library(tidyverse)
 
 # Directory with FCS files
-data_dir <- "~/data"
+data_dir <- "{flow_dir_location}"
 
 # Extract markers from panel
-panel_file <- file.path(data_dir, "panel.csv") # Can also be .xlsx
-metadata_file <- file.path(data_dir, "metadata.csv") # Can also be .xlsx
+panel_file <- file.path({panel_file_location}, "{panel_file_filename}") # Can also be .xlsx
+metadata_file <- file.path({meta_data_location}, "{meta_data_filename}") # Can also be .xlsx
 
 # Extract markers of interest
 markers <- read.csv(panel_file) %>% 
@@ -70,5 +87,118 @@ uncorrected <- prepare_data(
   down_sample = FALSE,
   markers = markers
 )
-# Store result
-saveRDS(uncorrected, file = file.path(data_dir, "uncorrected.RDS"))
+
+# Store result in dir
+saveRDS(uncorrected, file = file.path(data_dir, "{meta_data_filename}_uncorrected.RDS"))
+'''
+# End of data_prep - write to .R
+# Function to write to .R and run using subprocess
+def run_rscript(script_to_run, script_name, r_path):
+    with open(script_name, "w") as file:
+        file.write(script_to_run)
+    load_script = [r_path, script_name]
+    
+    with open(f'{script_name}output.log', 'w') as out, open(f'{script_name}_error.log', 'w') as err:
+        subprocess.run(load_script, stdout=out, stderr=err, text=True)
+
+# Run data_prep
+run_rscript(data_prep, "data_prep.R", rscript_path)
+
+# Batch correction R script
+data_batch_correction = f'''
+options(repos = c(CRAN = "https://cloud.r-project.org/")) 
+install.packages("cyCombine")
+install.packages("tidyverse")
+library(cyCombine)
+library(tidyverse)
+
+# Load the data
+data_dir <- "{flow_dir_location}"
+uncorrected <- readRDS(file.path(data_dir, "{meta_data_filename}_uncorrected.RDS"))
+markers <- get_markers(uncorrected)
+
+# Batch correct
+corrected <- batch_correct(
+  df = uncorrected,
+  covar = "condition",
+  markers = markers,
+  norm_method = "rank", # "rank" is recommended when combining data with heavy batch effects - otherwise use "scale"
+  rlen = 10, # Higher values are recommended if 10 does not appear to perform well
+  seed = {seed_number} # Recommended to use your own random seed
+)
+
+# Save result
+saveRDS(corrected, file.path(data_dir, "{meta_data_filename}_corrected.RDS"))
+'''
+
+# Run data_batch_correction
+run_rscript(data_batch_correction, "data_batch_correction.R", rscript_path)
+
+# Performance evaluation
+emd_reduction = ''
+mad_score = ''
+
+
+data_correction_performance = f'''
+options(repos = c(CRAN = "https://cloud.r-project.org/")) 
+install.packages("cyCombine")
+install.packages("tidyverse")
+library(cyCombine)
+library(tidyverse)
+
+# Load data (if not already loaded)
+data_dir <- "{flow_dir_location}"
+uncorrected <- readRDS(file.path(data_dir, "{meta_data_filename}_uncorrected.RDS"))
+corrected <- readRDS(file.path(data_dir, "{meta_data_filename}_corrected.RDS"))
+markers <- get_markers(uncorrected)
+
+# Re-run clustering on corrected data
+labels <- corrected %>% 
+  create_som(markers = markers,
+             rlen = 10)
+uncorrected$label <- corrected$label <- labels
+
+# Evaluate EMD
+emd <- evaluate_emd(uncorrected, corrected, cell_col = "label")
+
+# Reduction
+{emd_reduction} <- emd$reduction
+
+# Violin plot
+emd_violin <- emd$violin
+ggsave("data_dir/{meta_data_filename}_emd_violin.png", plot = emd_violin, width = 8, height = 6, dpi = 300)
+
+
+# Scatter plot
+emd_scatter <- emd$scatter
+ggsave("data_dir/{meta_data_filename}_emd_violin.png", plot = emd_violin, width = 8, height = 6, dpi = 300)
+
+# Evaluate MAD
+mad <- evaluate_mad(uncorrected, corrected, cell_col = "label")
+
+# Score
+{mad_score} <- mad$score
+'''
+
+end = time.time()
+
+# Performance Analytics
+runtime = round((end - start), 2)
+if runtime < 60:
+    print(f'Runtime: {runtime} seconds')
+else:
+    print('Runtime: ' + str(round((runtime/60), 2)) + ' minutes')
+print(emd_reduction)
+print(mad_score)
+
+performance_dict = {
+    "meta_data_filename": meta_data_filename,
+    "runtime": runtime,
+    "emd_reduction": emd_reduction,
+    "mad_score": mad_score
+}
+
+#Dataframe generation of performance analytics
+performance_dict = pd.DataFrame([performance_dict])
+csv_path = os.path.join(flow_dir_location, f"{meta_data_filename}_performance.csv")
+performance_dict.to_csv(csv_path, index=False)
