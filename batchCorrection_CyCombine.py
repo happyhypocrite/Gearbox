@@ -11,17 +11,15 @@ import re
 start = time.time()
 def data_input(file_type):
     file_input = input(str(f'{file_type} file path:'))
-    while file_input is None:
-        if not os.path.exists(file_input):
-                raise FileNotFoundError("Path not found. Please enter a valid file path.")
-        else:
-            try:
-                print('File path accepted')
-                file_input = file_input.replace("\\", "/")
-                return file_input
-            except Exception as e:
-                print(f"Failed to read file: {e}")
-                file_input = None
+    while not os.path.exists(file_input):
+        raise FileNotFoundError("Path not found. Please enter a valid file path.")
+    try:
+        print('File path accepted')
+        file_input = file_input.replace("\\", "/")
+        return file_input
+    except Exception as e:
+        print(f"Failed to read file: {e}")
+        return None
 
 meta_data_csv_name = input(str('meta_data_csv_name - with .csv ending:'))
 meta_data_location = data_input('meta_data_location:')
@@ -65,20 +63,27 @@ seed_number = random.seed(1000)
 
 # Data preparation R script
 data_prep = f'''
+.libPaths("./R/win-library/4.3.1")
 options(repos = c(CRAN = "https://cloud.r-project.org/")) 
 # To ensure Rstudio looks up BioConductor packages run:
 setRepositories(ind = c(1:6, 8))
-# Then install package with
-devtools::install_github("biosurf/cyCombine")
+install.packages("tidyverse")
 if (!requireNamespace("remotes", quietly = TRUE)) {{
     install.packages("remotes")
 }}
-remotes::install_version("htmltools", version = "0.5.7", repos = "https://cloud.r-project.org")
-install.packages("tidyverse")
-
+remotes::install_version(
+    "htmltools",
+    version = "0.5.7",
+    repos = "https://cloud.r-project.org",
+    upgrade = "never",
+    force = TRUE
+)
+# Then install package with
+devtools::install_github("biosurf/cyCombine")
 
 library(cyCombine)
 library(tidyverse)
+print('Everything loaded in')
 
 # Directory with FCS files
 data_dir <- "{flow_dir_location}"
@@ -86,6 +91,7 @@ data_dir <- "{flow_dir_location}"
 # Extract markers from panel
 panel_file <- file.path({panel_file_location}, "{panel_file_csv_name}") # Can also be .xlsx
 metadata_file <- file.path({meta_data_location}, "{meta_data_csv_name}") # Can also be .xlsx
+print('Meta data loaded')
 
 # Extract markers of interest
 markers <- read.csv(panel_file) %>% 
@@ -102,9 +108,11 @@ uncorrected <- prepare_data(
   down_sample = FALSE,
   markers = markers
 )
+print('Uncorrected Tibble made')
 
 # Store result in dir
 saveRDS(uncorrected, file = file.path(data_dir, "{meta_data_file}_uncorrected.RDS"))
+print('Uncorrected RDS Made')
 '''
 # End of data_prep - write to .R
 # Function to write to .R and run using subprocess
@@ -121,16 +129,23 @@ run_rscript(data_prep, "data_prep.R", rscript_path)
 
 # Batch correction R script
 data_batch_correction = f'''
+.libPaths("./R/win-library/4.3.1")
 options(repos = c(CRAN = "https://cloud.r-project.org/")) 
 # To ensure Rstudio looks up BioConductor packages run:
 setRepositories(ind = c(1:6, 8))
-# Then install package with
-devtools::install_github("biosurf/cyCombine")
+install.packages("tidyverse")
 if (!requireNamespace("remotes", quietly = TRUE)) {{
     install.packages("remotes")
 }}
-remotes::install_version("htmltools", version = "0.5.7", repos = "https://cloud.r-project.org")
-install.packages("tidyverse")
+remotes::install_version(
+    "htmltools",
+    version = "0.5.7",
+    repos = "https://cloud.r-project.org",
+    upgrade = "never",
+    force = TRUE
+)
+# Then install package with
+devtools::install_github("biosurf/cyCombine")
 
 library(cyCombine)
 library(tidyverse)
@@ -163,16 +178,23 @@ mad_score = ''
 
 
 data_correction_performance = f'''
+.libPaths("./R/win-library/4.3.1")
 options(repos = c(CRAN = "https://cloud.r-project.org/")) 
 # To ensure Rstudio looks up BioConductor packages run:
 setRepositories(ind = c(1:6, 8))
-# Then install package with
-devtools::install_github("biosurf/cyCombine")
+install.packages("tidyverse")
 if (!requireNamespace("remotes", quietly = TRUE)) {{
     install.packages("remotes")
 }}
-remotes::install_version("htmltools", version = "0.5.7", repos = "https://cloud.r-project.org")
-install.packages("tidyverse")
+remotes::install_version(
+    "htmltools",
+    version = "0.5.7",
+    repos = "https://cloud.r-project.org",
+    upgrade = "never",
+    force = TRUE
+)
+# Then install package with
+devtools::install_github("biosurf/cyCombine")
 
 library(cyCombine)
 library(tidyverse)

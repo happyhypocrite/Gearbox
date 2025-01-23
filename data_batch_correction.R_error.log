@@ -1,0 +1,29 @@
+Installing package into 'P:/R/win-library/4.3.1'
+(as 'lib' is unspecified)
+Warning: unable to access index for repository NA/src/contrib:
+  cannot open URL 'NA/src/contrib/PACKAGES'
+Warning: unable to access index for repository https://bioconductor.org/packages/3.17/data/annotation/bin/windows/contrib/4.3:
+  cannot open URL 'https://bioconductor.org/packages/3.17/data/annotation/bin/windows/contrib/4.3/PACKAGES'
+Warning: unable to access index for repository https://bioconductor.org/packages/3.17/data/experiment/bin/windows/contrib/4.3:
+  cannot open URL 'https://bioconductor.org/packages/3.17/data/experiment/bin/windows/contrib/4.3/PACKAGES'
+Warning: unable to access index for repository https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3:
+  cannot open URL 'https://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.3/PACKAGES'
+Warning: unable to access index for repository NA/bin/windows/contrib/4.3:
+  cannot open URL 'NA/bin/windows/contrib/4.3/PACKAGES'
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/4.3/tidyverse_2.0.0.zip'
+Content type 'application/zip' length 431044 bytes (420 KB)
+==================================================
+downloaded 420 KB
+
+Downloading package from url: https://cloud.r-project.org/src/contrib/Archive/htmltools/htmltools_0.5.7.tar.gz
+Installing package into 'P:/R/win-library/4.3.1'
+(as 'lib' is unspecified)
+ERROR: failed to lock directory 'P:/R/win-library/4.3.1' for modifying
+Try removing 'P:/R/win-library/4.3.1/00LOCK-htmltools'
+Warning message:
+In i.p(...) :
+  installation of package 'C:/Users/mfbx2rdb/AppData/Local/Temp/Rtmp6v1PYK/remotes487c43883013/htmltools' had non-zero exit status
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  namespace 'htmltools' 0.5.6 is already loaded, but >= 0.5.7 is required
+Calls: loadNamespace ... namespaceImport -> loadNamespace -> namespaceImport -> loadNamespace
+Execution halted
