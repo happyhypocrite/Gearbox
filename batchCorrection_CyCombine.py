@@ -6,6 +6,7 @@ import time
 import os
 import random
 import pandas as pd
+import re
 
 start = time.time()
 def data_input(file_type):
@@ -16,15 +17,20 @@ def data_input(file_type):
         else:
             try:
                 print('File path accepted')
+                file_input = file_input.replace("\\", "/")
                 return file_input
             except Exception as e:
                 print(f"Failed to read file: {e}")
                 file_input = None
 
-meta_data_filename = input(str('meta_data_file name with .csv ending'))
-meta_data_location = data_input('meta_data_file')
-panel_file_filename = input(str('meta_data_file name with .csv ending'))
-panel_file_location = data_input('panel_file')
+meta_data_csv_name = input(str('meta_data_csv_name - with .csv ending:'))
+meta_data_location = data_input('meta_data_location:')
+meta_data_file = re.sub(r'\.csv$', '', meta_data_csv_name)
+
+panel_file_csv_name = input(str('panel_file_csv_name - with .csv ending:'))
+panel_file_location = data_input('panel_file_location:')
+panel_file_file = re.sub(r'\.csv$', '', panel_file_csv_name)
+
 flow_dir_location = data_input('flow_dir')
 
 # find Rscript.exe
@@ -60,8 +66,17 @@ seed_number = random.seed(1000)
 # Data preparation R script
 data_prep = f'''
 options(repos = c(CRAN = "https://cloud.r-project.org/")) 
-install.packages("cyCombine")
+# To ensure Rstudio looks up BioConductor packages run:
+setRepositories(ind = c(1:6, 8))
+# Then install package with
+devtools::install_github("biosurf/cyCombine")
+if (!requireNamespace("remotes", quietly = TRUE)) {{
+    install.packages("remotes")
+}}
+remotes::install_version("htmltools", version = "0.5.7", repos = "https://cloud.r-project.org")
 install.packages("tidyverse")
+
+
 library(cyCombine)
 library(tidyverse)
 
@@ -69,8 +84,8 @@ library(tidyverse)
 data_dir <- "{flow_dir_location}"
 
 # Extract markers from panel
-panel_file <- file.path({panel_file_location}, "{panel_file_filename}") # Can also be .xlsx
-metadata_file <- file.path({meta_data_location}, "{meta_data_filename}") # Can also be .xlsx
+panel_file <- file.path({panel_file_location}, "{panel_file_csv_name}") # Can also be .xlsx
+metadata_file <- file.path({meta_data_location}, "{meta_data_csv_name}") # Can also be .xlsx
 
 # Extract markers of interest
 markers <- read.csv(panel_file) %>% 
@@ -89,7 +104,7 @@ uncorrected <- prepare_data(
 )
 
 # Store result in dir
-saveRDS(uncorrected, file = file.path(data_dir, "{meta_data_filename}_uncorrected.RDS"))
+saveRDS(uncorrected, file = file.path(data_dir, "{meta_data_file}_uncorrected.RDS"))
 '''
 # End of data_prep - write to .R
 # Function to write to .R and run using subprocess
@@ -107,14 +122,22 @@ run_rscript(data_prep, "data_prep.R", rscript_path)
 # Batch correction R script
 data_batch_correction = f'''
 options(repos = c(CRAN = "https://cloud.r-project.org/")) 
-install.packages("cyCombine")
+# To ensure Rstudio looks up BioConductor packages run:
+setRepositories(ind = c(1:6, 8))
+# Then install package with
+devtools::install_github("biosurf/cyCombine")
+if (!requireNamespace("remotes", quietly = TRUE)) {{
+    install.packages("remotes")
+}}
+remotes::install_version("htmltools", version = "0.5.7", repos = "https://cloud.r-project.org")
 install.packages("tidyverse")
+
 library(cyCombine)
 library(tidyverse)
 
 # Load the data
 data_dir <- "{flow_dir_location}"
-uncorrected <- readRDS(file.path(data_dir, "{meta_data_filename}_uncorrected.RDS"))
+uncorrected <- readRDS(file.path(data_dir, "{meta_data_file}_uncorrected.RDS"))
 markers <- get_markers(uncorrected)
 
 # Batch correct
@@ -128,7 +151,7 @@ corrected <- batch_correct(
 )
 
 # Save result
-saveRDS(corrected, file.path(data_dir, "{meta_data_filename}_corrected.RDS"))
+saveRDS(corrected, file.path(data_dir, "{meta_data_file}_corrected.RDS"))
 '''
 
 # Run data_batch_correction
@@ -141,15 +164,23 @@ mad_score = ''
 
 data_correction_performance = f'''
 options(repos = c(CRAN = "https://cloud.r-project.org/")) 
-install.packages("cyCombine")
+# To ensure Rstudio looks up BioConductor packages run:
+setRepositories(ind = c(1:6, 8))
+# Then install package with
+devtools::install_github("biosurf/cyCombine")
+if (!requireNamespace("remotes", quietly = TRUE)) {{
+    install.packages("remotes")
+}}
+remotes::install_version("htmltools", version = "0.5.7", repos = "https://cloud.r-project.org")
 install.packages("tidyverse")
+
 library(cyCombine)
 library(tidyverse)
 
 # Load data (if not already loaded)
 data_dir <- "{flow_dir_location}"
-uncorrected <- readRDS(file.path(data_dir, "{meta_data_filename}_uncorrected.RDS"))
-corrected <- readRDS(file.path(data_dir, "{meta_data_filename}_corrected.RDS"))
+uncorrected <- readRDS(file.path(data_dir, "{meta_data_file}_uncorrected.RDS"))
+corrected <- readRDS(file.path(data_dir, "{meta_data_file}_corrected.RDS"))
 markers <- get_markers(uncorrected)
 
 # Re-run clustering on corrected data
@@ -166,12 +197,12 @@ emd <- evaluate_emd(uncorrected, corrected, cell_col = "label")
 
 # Violin plot
 emd_violin <- emd$violin
-ggsave("data_dir/{meta_data_filename}_emd_violin.png", plot = emd_violin, width = 8, height = 6, dpi = 300)
+ggsave("data_dir/{meta_data_file}_emd_violin.png", plot = emd_violin, width = 8, height = 6, dpi = 300)
 
 
 # Scatter plot
 emd_scatter <- emd$scatter
-ggsave("data_dir/{meta_data_filename}_emd_violin.png", plot = emd_violin, width = 8, height = 6, dpi = 300)
+ggsave("data_dir/{meta_data_file}_emd_violin.png", plot = emd_violin, width = 8, height = 6, dpi = 300)
 
 # Evaluate MAD
 mad <- evaluate_mad(uncorrected, corrected, cell_col = "label")
@@ -192,7 +223,7 @@ print(emd_reduction)
 print(mad_score)
 
 performance_dict = {
-    "meta_data_filename": meta_data_filename,
+    "meta_data_file": meta_data_file,
     "runtime": runtime,
     "emd_reduction": emd_reduction,
     "mad_score": mad_score
@@ -200,5 +231,5 @@ performance_dict = {
 
 #Dataframe generation of performance analytics
 performance_dict = pd.DataFrame([performance_dict])
-csv_path = os.path.join(flow_dir_location, f"{meta_data_filename}_performance.csv")
+csv_path = os.path.join(flow_dir_location, f"{meta_data_file}_performance.csv")
 performance_dict.to_csv(csv_path, index=False)
