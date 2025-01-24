@@ -35,10 +35,10 @@ flow_dir_location = data_input('flow_dir')
 def find_rscript():
     possible_directories = [
         r"C:\Users\mfbx2rdb\AppData\Local\Programs\R"
-        r"C:\Program Files\R",                   
-        r"C:\Program Files (x86)\R",
-        os.environ.get("ProgramFiles"),  
-        os.environ.get("ProgramFiles(x86)")
+        #r"C:\Program Files\R",                   
+        #r"C:\Program Files (x86)\R",
+        #os.environ.get("ProgramFiles"),  
+        #os.environ.get("ProgramFiles(x86)")
     ]
     for directory in possible_directories:
         if directory:
