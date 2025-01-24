@@ -1,10 +1,11 @@
-import subprocess 
-import os
-import glob
+import subprocess
+import glob, os
 
+
+# find Rscript.exe
 def find_rscript():
     possible_directories = [
-        r"C:\Users\mfbx2rdb\AppData\Local\Programs\R\R-4.4.2"
+        r"C:\Users\mfbx2rdb\AppData\Local\Programs\R"
         #r"C:\Program Files\R",                   
         #r"C:\Program Files (x86)\R",
         #os.environ.get("ProgramFiles"),  
@@ -16,28 +17,24 @@ def find_rscript():
             if rscript_paths:
                 return rscript_paths[0]
     return None
-
-def find_r_library_locations(rscript_path):
+def find_r_libraries(rscript_path):
     try:
-        command = [rscript_path, "-e", "cat(paste(.libPaths(), collapse='\n'))"]
-        print(f"Executing command: {' '.join(command)}")
-        result = subprocess.run(command, capture_output=True, text=True, check=True)
-        library_locations = result.stdout.split('\n')
-        return library_locations
+        result = subprocess.run([rscript_path, "-e", "installed.packages()[,1]"], capture_output=True, text=True, check=True)
+        libraries = result.stdout.split('\n')
+        return libraries
     except subprocess.CalledProcessError as e:
-        print(f"Error finding R library locations: {e}")
-        print(f"stderr: {e.stderr}")
+        print(f"Error finding R libraries: {e}")
         return None
 
 # Example usage
 rscript_path = find_rscript()
 if rscript_path:
-    library_locations = find_r_library_locations(rscript_path)
-    if library_locations:
-        print("R library locations:")
-        for location in library_locations:
-            print(location)
+    libraries = find_r_libraries(rscript_path)
+    if libraries:
+        print("Installed R libraries:")
+        for lib in libraries:
+            print(lib)
     else:
-        print("No library locations found or an error occurred.")
+        print("No libraries found or an error occurred.")
 else:
     print("Rscript.exe not found.")
