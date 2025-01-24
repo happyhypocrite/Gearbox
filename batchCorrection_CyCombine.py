@@ -7,25 +7,25 @@ import os
 import random
 import pandas as pd
 import re
-
 start = time.time()
+
 def data_input(file_type):
-    file_input = input(str(f'{file_type} file path:'))
-    while not os.path.exists(file_input):
+    file_path = input(str(f'{file_type} file path:'))
+    while not os.path.exists(file_path):
         raise FileNotFoundError("Path not found. Please enter a valid file path.")
     try:
         print('File path accepted')
-        file_input = file_input.replace("\\", "/")
-        return file_input
+        file_path = file_path.replace("\\", "/")
+        return file_path
     except Exception as e:
         print(f"Failed to read file: {e}")
         return None
 
-meta_data_csv_name = input(str('meta_data_csv_name - with .csv ending:'))
+meta_data_csv_name = 'fcs_metadata_22012025.csv'# input(str('meta_data_csv_name - with .csv ending:'))
 meta_data_location = data_input('meta_data_location:')
 meta_data_file = re.sub(r'\.csv$', '', meta_data_csv_name)
 
-panel_file_csv_name = input(str('panel_file_csv_name - with .csv ending:'))
+panel_file_csv_name = 'panel_metadata_22012025.csv' #input(str('panel_file_csv_name - with .csv ending:'))
 panel_file_location = data_input('panel_file_location:')
 panel_file_file = re.sub(r'\.csv$', '', panel_file_csv_name)
 
@@ -63,14 +63,33 @@ seed_number = random.seed(1000)
 
 # Data preparation R script
 data_prep = f'''
-.libPaths("./R/win-library/4.3.1")
-options(repos = c(CRAN = "https://cloud.r-project.org/")) 
-# To ensure Rstudio looks up BioConductor packages run:
+.libPaths("C:/R/win-library/4.3.1")
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+
+# Ensure R looks up BioConductor packages
 setRepositories(ind = c(1:6, 8))
-install.packages("tidyverse")
-if (!requireNamespace("remotes", quietly = TRUE)) {{
-    install.packages("remotes")
+
+# List of required packages
+required_packages <- c("tidyverse", "remotes")
+
+# Function to check and install missing packages
+install_if_missing <- function(packages) {{
+  for (pkg in packages) {{
+    if (!requireNamespace(pkg, quietly = TRUE)) {{
+      install.packages(pkg, lib = "C:/R/win-library/4.3.1")
+    }}
+  }}
 }}
+
+# Check and install missing packages
+install_if_missing(required_packages)
+
+# Remove lock directory if it exists
+if (dir.exists("C:/R/win-library/4.3.1/00LOCK-htmltools")) {{
+  unlink("C:/R/win-library/4.3.1/00LOCK-htmltools", recursive = TRUE)
+}}
+
+# Install specific version of htmltools
 remotes::install_version(
     "htmltools",
     version = "0.5.7",
@@ -78,7 +97,7 @@ remotes::install_version(
     upgrade = "never",
     force = TRUE
 )
-# Then install package with
+# Install cyCombine package from GitHub
 devtools::install_github("biosurf/cyCombine")
 
 library(cyCombine)
@@ -129,14 +148,24 @@ run_rscript(data_prep, "data_prep.R", rscript_path)
 
 # Batch correction R script
 data_batch_correction = f'''
-.libPaths("./R/win-library/4.3.1")
-options(repos = c(CRAN = "https://cloud.r-project.org/")) 
-# To ensure Rstudio looks up BioConductor packages run:
+.libPaths("C:/R/win-library/4.3.1")
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+# Ensure R looks up BioConductor packages
 setRepositories(ind = c(1:6, 8))
-install.packages("tidyverse")
-if (!requireNamespace("remotes", quietly = TRUE)) {{
-    install.packages("remotes")
+# List of required packages
+required_packages <- c("tidyverse", "remotes")
+
+# Function to check and install missing packages
+install_if_missing <- function(packages) {{
+  for (pkg in packages) {{
+    if (!requireNamespace(pkg, quietly = TRUE)) {{
+      install.packages(pkg, lib = "C:/R/win-library/4.3.1")
+    }}
+  }}
 }}
+# Check and install missing packages
+install_if_missing(required_packages)
+# Install specific version of htmltools
 remotes::install_version(
     "htmltools",
     version = "0.5.7",
@@ -144,8 +173,9 @@ remotes::install_version(
     upgrade = "never",
     force = TRUE
 )
-# Then install package with
+# Install cyCombine package from GitHub
 devtools::install_github("biosurf/cyCombine")
+
 
 library(cyCombine)
 library(tidyverse)
@@ -178,14 +208,24 @@ mad_score = ''
 
 
 data_correction_performance = f'''
-.libPaths("./R/win-library/4.3.1")
-options(repos = c(CRAN = "https://cloud.r-project.org/")) 
-# To ensure Rstudio looks up BioConductor packages run:
+.libPaths("C:/R/win-library/4.3.1")
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+# Ensure R looks up BioConductor packages
 setRepositories(ind = c(1:6, 8))
-install.packages("tidyverse")
-if (!requireNamespace("remotes", quietly = TRUE)) {{
-    install.packages("remotes")
+# List of required packages
+required_packages <- c("tidyverse", "remotes")
+
+# Function to check and install missing packages
+install_if_missing <- function(packages) {{
+  for (pkg in packages) {{
+    if (!requireNamespace(pkg, quietly = TRUE)) {{
+      install.packages(pkg, lib = "C:/R/win-library/4.3.1")
+    }}
+  }}
 }}
+# Check and install missing packages
+install_if_missing(required_packages)
+# Install specific version of htmltools
 remotes::install_version(
     "htmltools",
     version = "0.5.7",
@@ -193,8 +233,9 @@ remotes::install_version(
     upgrade = "never",
     force = TRUE
 )
-# Then install package with
+# Install cyCombine package from GitHub
 devtools::install_github("biosurf/cyCombine")
+
 
 library(cyCombine)
 library(tidyverse)
