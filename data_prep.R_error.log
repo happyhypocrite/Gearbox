@@ -1,0 +1,105 @@
+Downloading package from url: https://cloud.r-project.org/src/contrib/Archive/htmltools/htmltools_0.5.7.tar.gz
+* installing *source* package 'htmltools' ...
+** package 'htmltools' successfully unpacked and MD5 sums checked
+ERROR: cannot remove earlier installation, is it in use?
+* removing 'C:/Users/mfbx2rdb/AppData/Local/Programs/R/R-4.4.2/library/htmltools'
+* restoring previous 'C:/Users/mfbx2rdb/AppData/Local/Programs/R/R-4.4.2/library/htmltools'
+Warning in file.copy(lp, dirname(pkgdir), recursive = TRUE, copy.date = TRUE) :
+  problem copying C:\Users\mfbx2rdb\AppData\Local\Programs\R\R-4.4.2\library\00LOCK-htmltools\htmltools\libs\x64\htmltools.dll to C:\Users\mfbx2rdb\AppData\Local\Programs\R\R-4.4.2\library\htmltools\libs\x64\htmltools.dll: Permission denied
+Warning message:
+In i.p(...) :
+  installation of package 'C:/Users/mfbx2rdb/AppData/Local/Temp/RtmpYzYjBs/remotes4f0c1c46e8/htmltools' had non-zero exit status
+Skipping install of 'cyCombine' from a github remote, the SHA1 (ac5790e8) has not changed since last install.
+  Use `force = TRUE` to force installation
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+Reading 243 files to a flowSet..
+000002_A1 S-104-6M-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000007_A11 S-262-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000008_A12 S-262-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000010_A2 S-104-6M-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000012_A3 S-104-6M-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000015_A4 S-176-6M-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000019_A5 S-176-6M-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000022_A6 S-176-6M-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000026_A7 S-261-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000028_A8 S-261-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000032_A9 S-261-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000035_B1 S-262-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000038_B10 S-274-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000040_B12 S-089-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000045_B3 S-264-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000048_B4 S-264-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000051_B5 S-264-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000056_B7 S-265-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000058_B8 S-274-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000062_B9 S-274-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000064_C1 S-089-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000068_C10 S-265-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000070_C12 M-069-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000072_C2 M-083-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000074_C3 M-152-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000077_C4 M-C-003-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000081_C5 M-C-007-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000084_C6 S-167-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000087_C7 S-167-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000090_C8 S-167-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000094_C9 S-265-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000096_D1 M-069-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000098_D10 M-078-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000101_D11 M-080-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000103_D12 M-069-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000105_D2 M-069-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000107_D3 M-074-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000110_D4 M-074-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000114_D5 M-074-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000117_D6 M-074-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000120_D7 M-078-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000123_D8 M-078-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000126_D9 M-078-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000129_E1 M-080-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000132_E10 M-082-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000135_E11 M-082-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000136_E12 M-083-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000138_E2 M-080-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000140_E3 M-080-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000143_E4 M-081-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000147_E5 M-081-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000151_E6 M-081-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000153_E7 M-081-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000156_E8 M-082-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000159_E9 M-082-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000162_F1 M-083-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000165_F10 M-152-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000168_F11 M-152-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000169_F12 M-152-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000170_F2 M-083-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000173_F3 M-149-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000176_F4 M-149-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000181_F5 M-149-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000184_F6 M-149-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000186_F7 M-151-InP-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000189_F8 M-151-InP-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000192_F9 M-151-InP-300_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000195_G1 M-C-003-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000197_G10 Batchcontrol_PolyIC_040_20112024_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000201_G2 M-C-003-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000203_G3 M-C-003-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000206_G4 M-C-007-001_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000211_G5 M-C-007-020_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000214_G6 M-C-007-InP-040_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000215_G7 Batchcontrol_nostim_001_20112024_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000218_G8 Batchcontrol_020_20112024_Mainstain.fcs doesn't have the identical colnames as the other samples!
+000221_G9 Batchcontrol_LPS_300_20112024_Mainstain.fcs doesn't have the identical colnames as the other samples!
+Error in validObject(.Object) : 
+  invalid class "flowSet" object: Some items identified in the data environment either have the wrong dimension or type.
+Calls: prepare_data ... asMethod -> new -> initialize -> initialize -> validObject
+Execution halted

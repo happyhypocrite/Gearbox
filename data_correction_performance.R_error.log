@@ -1,0 +1,3 @@
+Error in .options(repos = c(CRAN = "https://cloud.r-project.org/")) : 
+  could not find function ".options"
+Execution halted
