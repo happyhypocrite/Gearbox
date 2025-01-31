@@ -42,7 +42,6 @@ def test_file_vs_meta(csv_file_path, directory_files):
         print("No common files found, filenames do not match between os files and metadata list")
     else:
         print("FILE SUBMISSION SUCCEEDED META VS DIRECTORY NAME TEST")
-        #print(f"Shared files:", common_files)
 
 
 def fcs_colnames_in_dir_to_df(directory_files, directory_path):
@@ -55,13 +54,14 @@ def fcs_colnames_in_dir_to_df(directory_files, directory_path):
             fcs_file_dataframe = pd.DataFrame(data)
             marker_names_dict[file] = fcs_file_dataframe.columns.tolist()
     column_names_df = pd.DataFrame.from_dict(marker_names_dict, orient='index') #df containing column names of each fcs file with the file name as the key and thus index
-    return column_names_df
+    return column_names_df, marker_names_dict
 
 
 def test_shared_fcs_colnames_entry(column_names_df):
     '''Finds most_common_marker_name per column in marker_names_dict - finds the specific entries where entry !=most_common_marker_name and reports to user'''
-    most_common_marker_name = {} # most_common_marker_name dict: key = column index, value = most common colname (via mode), each dict entry = iterated across each column
+    most_common_marker_name = {} # most_common_marker_name dict: key = col index, value = most common colname (via mode), each dict entry = iterated across each column
     bad_marker_entries = {} # bad_marker_entries dict: key = col index, value = the bad_entry - can use the most_common_marker_name to understand what it should be.
+    bad_marker_fcs = {}
 
     for col_index in range(len(column_names_df.columns)):
         most_common = column_names_df.iloc[:, col_index].mode()[0] 
@@ -70,52 +70,45 @@ def test_shared_fcs_colnames_entry(column_names_df):
         mismatches = column_names_df[column_names_df.iloc[:, col_index] != most_common]
         if not mismatches.empty:
             bad_marker_entries[col_index] = mismatches.index.tolist()
-            
+            mismatch_store = mismatches
+    for idx, row in mismatch_store.iterrows():
+        bad_marker_fcs[idx] = row.tolist()
+    bad_marker_fcs 
+    
     '''Report to user what most common marker name is per column, and what fcs files don't meet this standard'''
     if bad_marker_entries:
-        bad_marker_name_dict = {most_common_marker_name[key]: value for key, value in bad_marker_entries.items()}
-
+        bad_marker_entries_dict = {most_common_marker_name[key]: value for key, value in bad_marker_entries.items()}
         print("FILE SUBMISSION FAILED MARKER NAMING TEST")
         print("Please ensure all flourophore markers are *exactly* the same")
         print("Accepted naming scheme:", most_common_marker_name)
         print('Please find .csv of incorrect markers in the working directory')
-
-        export = pd.DataFrame.from_dict(bad_marker_name_dict, orient='index') #df containing column names of each fcs file with the file name as the key and thus index
+        export = pd.DataFrame.from_dict(bad_marker_entries_dict, orient='index') #df containing column names of each fcs file with the file name as the key and thus index
         export.to_csv('bad_marker_entries.csv')
     else:
         print("FILE SUBMISSION SUCCEEDED MARKER NAME TEST")
-    return bad_marker_name_dict, most_common_marker_name, bad_marker_entries
+    return most_common_marker_name, bad_marker_fcs
         
         
-def fix_bad_marker_entries(bad_marker_entries, most_common_marker_name):
+def fix_bad_marker_entries(most_common_marker_name, bad_marker_fcs):
     '''Finds the bad marker .fcs files in dir, takes the mode .fcs marker entries and applies them to a perfect_channel_name array, and applies that to the bad_marker .fcs files '''
-    bad_marker_held_fcs_list = list(bad_marker_entries.values()) # this is incorrect - i need to get the fcs files lol gotta grab this from test_shared_fcs_colnames_entry somehow....
-    print(bad_marker_held_fcs_list)
+    bad_marker_held_fcs_list = list(bad_marker_fcs.keys())
+    print(f'Bad markers in .fcs files:{bad_marker_held_fcs_list}')
     bad_marker_fcs_in_dir = list(set(bad_marker_held_fcs_list) & set(directory_files))
-    print(f'overlap : {bad_marker_fcs_in_dir}')
     
     for fcs_file in bad_marker_fcs_in_dir:
         file_path = os.path.join(directory_path, fcs_file)
         meta, data = fcsparser.parse(file_path, reformat_meta=True)
         bad_marker_fcs_dataframe = pd.DataFrame(data)
-        
-        bad_marker_fcs_dataframe.to_csv(f'{fcs_file}_original.csv') # for debug
-        
         bad_marker_fcs_dataframe.rename(columns={bad_marker_fcs_dataframe.columns[i]: new_name for i, new_name in most_common_marker_name.items()}, inplace=True)
-        
-        bad_marker_fcs_dataframe.to_csv(f'{fcs_file}_with_change.csv') # for debug
-        
-        fcswrite.write(f"{fcs_file}", most_common_marker_name, bad_marker_fcs_dataframe)
+        fcswrite.write_fcs(file_path, most_common_marker_name, bad_marker_fcs_dataframe)
     print('Completed overwrite of markers in .fcs')
     
     
 # Run code
 test_file_size(directory_files, directory_path)
 test_file_vs_meta(csv_file_path, directory_files)
-column_names_df = fcs_colnames_in_dir_to_df(directory_files, directory_path)
-bad_marker_name_dict, bad_marker_entries, most_common_marker_name = test_shared_fcs_colnames_entry(column_names_df)
-# Break
-
-fix_bad_marker_entries(bad_marker_entries, most_common_marker_name)
-#fix_markers_question = input(str('Fix markers? (Y/N):')).strip().lower()
-#if fix_markers_question == ['y', 'yes']:
+column_names_df, marker_names_dict = fcs_colnames_in_dir_to_df(directory_files, directory_path)
+most_common_marker_name, bad_marker_fcs = test_shared_fcs_colnames_entry(column_names_df)
+print('#'*20)
+print('#'*20)
+fix_bad_marker_entries(most_common_marker_name, bad_marker_fcs)
