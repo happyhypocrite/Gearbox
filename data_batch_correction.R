@@ -23,7 +23,7 @@ library(cyCombine)
 library(tidyverse)
 
 # Load the data
-data_dir <- "C:/Users/mfbx2rdb/OneDrive - The University of Manchester/PDRA/Sequencing/Py scripts/Projects/ImmAcc/Gearbox/StrokeIMPaCT_SmartTube_V2/Batch1-2-3-4-fcsdump"
+data_dir <- "C:/Users/rufus/OneDrive - The University of Manchester/PDRA/Sequencing/Py scripts/Projects/ImmAcc/Gearbox/SI_SmartTube_V2/Batch1-2-3-4-fcsdump/"
 uncorrected <- readRDS(file.path(data_dir, "fcs_metadata_22012025_uncorrected.RDS"))
 markers <- get_markers(uncorrected)
 
