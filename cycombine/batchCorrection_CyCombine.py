@@ -37,12 +37,12 @@ flow_dir_location = data_input('flow_dir')
 # find Rscript.exe
 def find_rscript():
     possible_directories = [
-        #r"C:\Users\mfbx2rdb\AppData\Local\Programs\R"
-        r"C:\Program Files\R",  
-        r"C:\Program Files\R\bin",                 
-        r"C:\Program Files (x86)\R",
-        os.environ.get("ProgramFiles"),  
-        os.environ.get("ProgramFiles(x86)")
+        r"C:\Users\mfbx2rdb\AppData\Local\Programs\R"
+        #r"C:\Program Files\R",  
+        #r"C:\Program Files\R\bin",                 
+        #r"C:\Program Files (x86)\R",
+        #os.environ.get("ProgramFiles"),  
+        #os.environ.get("ProgramFiles(x86)")
     ]
     for directory in possible_directories:
         if directory:
@@ -112,19 +112,26 @@ print('Meta data loaded')
 
 # Extract markers of interest
 markers <- read.csv(panel_file) %>% 
-  filter(Type != "none") %>% 
+  filter(Type != "None") %>% 
   pull(Antigen)
 
 # Prepare a tibble from directory of FCS files
 uncorrected <- prepare_data(
-  data_dir = data_dir,
-  metadata = metadata_file, 
-  filename_col = "Filename",
-  batch_ids = "batch",
-  condition = "condition",
-  down_sample = FALSE,
-  markers = markers
-)
+                      data_dir = data_dir,
+                      metadata = metadata_file,
+                      filename_col = "Filename",
+                      batch_ids = "batch",
+                      condition = "condition",
+                      sample_ids = "Patient_id",
+                      markers = markers,
+                      down_sample = FALSE,
+                      .keep = FALSE,
+                      clean_colnames = FALSE,
+                      panel = panel_file,
+                      panel_channel = "Channel",
+                      panel_antigen = "Antigen",
+                      transform = TRUE)
+                      
 print('Uncorrected Tibble made')
 
 # Store result in dir
@@ -137,9 +144,7 @@ def run_rscript(script_to_run, script_name, r_path):
     with open(script_name, "w") as file:
         file.write(script_to_run)
     load_script = [r_path, script_name]
-    
-    with open(f'{script_name}_output.log', 'w') as out, open(f'{script_name}_error.log', 'w') as err:
-        subprocess.run(load_script, stdout=out, stderr=err, text=True)
+    subprocess.run(load_script, text = True, capture_output = False )
 
 # Run data_prep
 run_rscript(data_prep, "data_prep.R", rscript_path)
@@ -200,7 +205,7 @@ data_correction_performance = f'''
 setRepositories(ind = c(1:6, 8))
 
 # List of required packages
-required_packages <- c("tidyverse", "remotes")
+required_packages <- c("tidyverse", "remotes", "emdist")
 
 # Function to check and install missing packages
 install_if_missing <- function(packages) {{
@@ -254,12 +259,23 @@ mad_score <- mad$score
 cat(jsonlite::toJSON(list(mad_score = mad_score, emd_reduction = emd_reduction)))
 '''
 #Run the Rscript
-run_rscript(data_correction_performance, "data_correction_performance.R", rscript_path)
 
+def run_rscript_with_output(script_name, script_to_run, r_path):
+  '''Run R script and save output to a log file with the script name as prefix'''
+  with open(script_name, "w") as file:
+      file.write(script_to_run)
+      
+  load_script = [r_path, script_name]
+  output_log_path = "data_correction_performance.log"
+  
+  with open(output_log_path, 'w') as out:
+    subprocess.run(load_script, stdout=out, text=True)
+
+run_rscript_with_output(data_correction_performance, "data_correction_performance.R", rscript_path)
 time.sleep(1)
 
 #Load the performance metrics to a JSON to parse to Python
-with open('data_correction_performance.R_output.log', 'r') as f:
+with open('data_correction_performance.log', 'r') as f:
     data_correction_performance_json = json.load(f)
 mad_score = data_correction_performance_json['mad_score']
 emd_reduction = data_correction_performance_json['emd_reduction']

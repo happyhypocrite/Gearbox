@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch, Mock, mock_open
 import pandas as pd
 import os
-from file_input_check import test_file_size, test_file_vs_meta, fcs_colnames_in_dir_to_df
+from tests.file_input_check import test_file_size, test_file_vs_meta, fcs_colnames_in_dir_to_df
 
 class TestFileInput(unittest.TestCase):
     def setUp(self):
