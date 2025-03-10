@@ -41,7 +41,6 @@ cn_object.run_fcs_data_setup(input_directory = input_directory,
                       prefix = "Norm",
                       truncate_max_range = False)
 cn_object.run_clustering(cluster_cv_threshold = 2)
-
 cn_object.calculate_quantiles()
 cn_object.calculate_splines(goal = "batch_mean")
-cn_object.normalize_data()
+cn_object.normalize_data(n_jobs = 1)
