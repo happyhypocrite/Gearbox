@@ -9,10 +9,11 @@ import flowsom
 import cytonormpy as cnp
 import os
 import pandas as pd
+import glob
 
 # File wrangling and input
 input_directory = input(str("Path to .fcs files: "))
-import glob
+
 fcs_files = glob.glob(os.path.join(input_directory, "*.fcs"))
 if not fcs_files:
     print("No .fcs files found in the input directory!")
