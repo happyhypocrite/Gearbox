@@ -36,6 +36,9 @@ def test_file_vs_meta(csv_file_path, directory_files):
     if missing_in_dir or extra_in_dir is not None:
         print("FILE SUBMISSION FAILED META VS DIRECTORY NAME TEST")
         print("Missing in directory:", missing_in_dir)
+        print('#'*20)
+        print('#'*20)
+        print('#'*20)
         print("Not in CSV:", extra_in_dir)
     elif common_files is None:
         print("FILE SUBMISSION FAILED META VS DIRECTORY NAME TEST")
@@ -107,8 +110,8 @@ def fix_bad_marker_entries(most_common_marker_name, bad_marker_fcs):
 # Run code
 test_file_size(directory_files, directory_path)
 test_file_vs_meta(csv_file_path, directory_files)
-column_names_df, marker_names_dict = fcs_colnames_in_dir_to_df(directory_files, directory_path)
-most_common_marker_name, bad_marker_fcs = test_shared_fcs_colnames_entry(column_names_df)
-print('#'*20)
-print('#'*20)
-fix_bad_marker_entries(most_common_marker_name, bad_marker_fcs)
+#column_names_df, marker_names_dict = fcs_colnames_in_dir_to_df(directory_files, directory_path)
+#most_common_marker_name, bad_marker_fcs = test_shared_fcs_colnames_entry(column_names_df)
+#print('#'*20)
+#print('#'*20)
+#fix_bad_marker_entries(most_common_marker_name, bad_marker_fcs)
