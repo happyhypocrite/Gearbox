@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import fcsparser
 import fcswrite
+from pathlib import Path
 
 csv_file_path = input(str('Enter path to .csv of metadata: '))
 directory_path = input(str('Enter path to directory containing .fcs files: '))
@@ -33,7 +34,7 @@ def test_file_vs_meta(csv_file_path, directory_files):
     missing_in_dir = [file for file in csv_filenames if file not in directory_files]
     extra_in_dir = [file for file in directory_files if file not in csv_filenames]
 
-    if missing_in_dir or extra_in_dir is not None:
+    if missing_in_dir or extra_in_dir:
         print("FILE SUBMISSION FAILED META VS DIRECTORY NAME TEST")
         print("Missing in directory:", missing_in_dir)
         print('#'*20)
@@ -45,6 +46,7 @@ def test_file_vs_meta(csv_file_path, directory_files):
         print("No common files found, filenames do not match between os files and metadata list")
     else:
         print("FILE SUBMISSION SUCCEEDED META VS DIRECTORY NAME TEST")
+    return missing_in_dir, extra_in_dir
 
 
 def fcs_colnames_in_dir_to_df(directory_files, directory_path):
@@ -109,9 +111,15 @@ def fix_bad_marker_entries(most_common_marker_name, bad_marker_fcs):
     
 # Run code
 test_file_size(directory_files, directory_path)
-test_file_vs_meta(csv_file_path, directory_files)
+missing_in_dir, extra_in_dir = test_file_vs_meta(csv_file_path, directory_files)
 #column_names_df, marker_names_dict = fcs_colnames_in_dir_to_df(directory_files, directory_path)
 #most_common_marker_name, bad_marker_fcs = test_shared_fcs_colnames_entry(column_names_df)
 #print('#'*20)
 #print('#'*20)
 #fix_bad_marker_entries(most_common_marker_name, bad_marker_fcs)
+missing_in_dir_df = pd.DataFrame(missing_in_dir, columns=['missing in dir'])
+extra_in_dir_df = pd.DataFrame(extra_in_dir, columns=['extra in dir'])
+
+missing_in_dir_df.to_csv('missing_in_dir_df.csv')
+extra_in_dir_df.to_csv('extra_in_dir_df.csv')
+
