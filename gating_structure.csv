@@ -1,0 +1,42 @@
+Gate,Parent_Gate,X_axis,Y_axis
+Lymphocytes,,FSC-A,SSC-A
+Single Cells1,Lymphocytes,FSC-H,FSC-A
+Single Cells2,Single Cells1,SSC-H,SSC-A
+Neutrophils,Single Cells2,BV750-A,Spark UV 387-A
+Non-neutrophil leukocytes,Single Cells2,BV750-A,Spark UV 387-A
+All other,Non-neutrophil leukocytes,StarBright Red 815-A,RY586-A
+Basophils,Non-neutrophil leukocytes,StarBright Red 815-A,RY586-A
+CD3+,All other,StarBright Red 775-A,BV711-A
+gdTCR,All other,StarBright Red 775-A,BV711-A
+Rest,All other,StarBright Red 775-A,BV711-A
+CD3+CD56-,CD3+,PE-Vio670-A,StarBright Violet 475-A
+NKTcells,CD3+,PE-Vio670-A,StarBright Violet 475-A
+Non-pDC,Rest,RY703-A,StarBright UV445-A
+B cells,Rest,PE-Fire 810-A,RY586-A
+FCE1RA- CD19-,Rest,PE-Fire 810-A,RY586-A
+mDCs,Rest,PE-Fire 810-A,RY586-A
+pDCs,Rest,RY703-A,StarBright UV445-A
+8+Tcells,CD3+CD56-,StarBright Violet 475-A,StarBright UV445-A
+CD4+Tcells,CD3+CD56-,StarBright Violet 475-A,StarBright UV445-A
+CD8+NKTcells,NKTcells,PE-Vio670-A,StarBright Violet 475-A
+CD8-NKTcells,NKTcells,PE-Vio670-A,StarBright Violet 475-A
+Eosinophils,Non-pDC,StarBright Violet 475-A,SSC-A
+Rest,Non-pDC,StarBright Violet 475-A,SSC-A
+"HLADR-, SSC-Alo subset",FCE1RA- CD19-,StarBright Red 815-A,SSC-A
+Monocytes,FCE1RA- CD19-,StarBright Red 815-A,SSC-A
+CD8+CD45RA+CD27+ Naive,8+Tcells,BUV661-A,StarBright Blue675-A
+CD8+CD45RA+CD27- TEMRA,8+Tcells,BUV661-A,StarBright Blue675-A
+CD8+CD45RA-CD27+ TCM,8+Tcells,BUV661-A,StarBright Blue675-A
+CD8+CD45RA-CD27- TEM,8+Tcells,BUV661-A,StarBright Blue675-A
+CD25+Tregs,CD4+Tcells,StarBright Violet 440-A,StarBright UV445-A
+CD25-CD4+Tcells,CD4+Tcells,StarBright Violet 440-A,StarBright UV445-A
+EarlyNK,"HLADR-, SSC-Alo subset",BUV496-A,PE-Vio670-A
+Mature NK,"HLADR-, SSC-Alo subset",BUV496-A,PE-Vio670-A
+Terminal NK,"HLADR-, SSC-Alo subset",BUV496-A,PE-Vio670-A
+cMo,Monocytes,BUV496-A,BUV563-A
+intMo,Monocytes,BUV496-A,BUV563-A
+ncMo,Monocytes,BUV496-A,BUV563-A
+CD4+Naive,CD25-CD4+Tcells,BUV661-A,StarBright Blue675-A
+CD4+TCM,CD25-CD4+Tcells,BUV661-A,StarBright Blue675-A
+CD4+TEM,CD25-CD4+Tcells,BUV661-A,StarBright Blue675-A
+CD4+TEMRA,CD25-CD4+Tcells,BUV661-A,StarBright Blue675-A

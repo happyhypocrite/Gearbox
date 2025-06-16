@@ -53,19 +53,19 @@ output_dir = '/Volumes/grainger/Common/stroke_impact_smart_tube/computational_ou
 
 
 # 2b. Parse gates .fcs files - generate gating metadata for training. 
+        # Requires gated .fcs files, gating data is appended to the corresponding .csv file generated above
+        # Requires .wsp contianing the .fcs files.
 
-# Requires gated .fcs files, gating data is appended to the corresponding .csv file generated above
-# Requires .wsp contianing the .fcs files.
-
-wsp_path = '/Users/user/Documents/test_wsp/WSP_22052025.wsp' #<- Set the path to the WSP
+wsp_path = '/Users/user/Documents/test_wsp/WSP_22052025.wsp' # <- Set the path to the WSP
 wsp_files_path = '/Users/user/Documents/test_wsp/'
 
-if __name__ == '__main__':
-        _parse_fcs_add_gate_label(wsp_path, wsp_files_path, output_dir)
+#if __name__ == '__main__':
+#        _parse_fcs_add_gate_label(wsp_path, wsp_files_path, output_dir)
 
-# # 2c. Generate gating strategy from .wsp
-# if __name__ == '__main__':
-#     _extract_gating_strategy(wsp_path, wsp_files_path) #Add output_path arguement if you want the gating strat to go somewhere else. Otherwise easier in ./dir for Setting gates below.
+# 2c. Generate gating strategy from .wsp
+
+if __name__ == '__main__':
+    _extract_gating_strategy(wsp_path, wsp_files_path) #Add output_path arguement if you want the gating strat to go somewhere else. Otherwise easier in ./dir for Setting gates below.
 
 # #3. Setting gates
 # gating = pd.read_csv('./gating_structure.csv') #<- Path to your gating structure.
