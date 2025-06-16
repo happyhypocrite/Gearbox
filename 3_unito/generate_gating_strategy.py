@@ -7,23 +7,36 @@ def _parse_fcs_add_gate_label(wsp_path, wsp_fcs_dir, csv_dir):
     Takes the Gate_Label from the .fcs file and applies it to the .csv """
 
     workspace = fk.Workspace(wsp_path, fcs_samples = wsp_fcs_dir)
+    workspace.analyze_samples()
     for sample_id in workspace.get_sample_ids():
         print(f"Processing {sample_id}")
 
         try:
             sample = workspace.get_sample(sample_id)
-            workspace.apply_gates(sample)
+            gate_ids = workspace.get_gate_ids(sample_id)
+            terminal_gates = []
+            for gate_id in gate_ids:
+                child_gates = workspace.get_child_gate_ids(sample_id, gate_id[0], gate_path= gate_id[1])
+                if not child_gates:  # No children = terminal gate
+                    terminal_gates.append(gate_id)
+            
+            # Get the number of events in the sample
+            num_events = len(sample.get_events(source= 'raw'))
+            
+            # Initialize gate labels with "Ungated"
+            gate_labels = ["Ungated"] * num_events
 
-            # Get gate membership: a DataFrame of bools (True if the cell is in a gate)
-            gate_df = sample.get_gate_membership()
-            # Combine to make a Gate_Label column
-            def resolve_gate(row):
-                for gate in gate_df.columns:
-                    if row[gate]:
-                        return gate  # Return the first gate the cell belongs to
-                return "Other"
+            for gate_id in terminal_gates:
+                try:
+                    membership = workspace.get_gate_membership(sample_id, gate_id[0], gate_path= gate_id[1])
+                    # Update labels for cells in this terminal gate
+                    for i, is_member in enumerate(membership):
+                        if is_member:
+                            gate_labels[i] = gate_id
+                except Exception as e:
+                    print(f"Error getting membership for terminal gate {gate_id}: {e}")
 
-            gate_df["Gate_Label"] = gate_df.apply(resolve_gate, axis=1)
+            gate_df = pd.DataFrame({'Gate_Label': gate_labels})
 
             csv_path = os.path.join(csv_dir, f"{sample_id}.csv")
             if not os.path.exists(csv_path):
@@ -33,20 +46,23 @@ def _parse_fcs_add_gate_label(wsp_path, wsp_fcs_dir, csv_dir):
             csv_df = pd.read_csv(csv_path)
 
             if len(csv_df) != len(gate_df):
-                print(f"Mismatch in cell count for {sample_id}, skipping.")
+                print(f"Mismatch in cell count for {sample_id}: CSV has {len(csv_df)}, FCS has {len(gate_df)}")
                 continue
 
             # Add the Gate_Label to your CSV
             csv_df["Gate_Label"] = gate_df["Gate_Label"].values
 
             # Save output
-            csv_df.to_csv(os.path.join(csv_dir, f"{sample_id}_with_labels.csv"), index=False)
+            sample_id_nofcs = sample_id.replace('.fcs','')
+            output_path = os.path.join(csv_dir, f"{sample_id_nofcs}_with_gate_label.csv")
+            csv_df.to_csv(output_path, index=False)
             print(f"Saved labeled CSV for {sample_id}")
 
         except Exception as e:
             print(f"Error processing {sample_id}: {e}")
-    
-    return None
+        
+        return None
+
 
 
 
@@ -67,7 +83,7 @@ def _extract_gating_strategy(wsp_path, wsp_fcs_dir, output_path="./gating_struct
     gating_data = []
     
     # Get all gates in the workspace
-    gate_ids = workspace.get_gate_ids()
+    gate_ids = workspace.get_gate_ids(sample)
     
     for gate_id in gate_ids:
         try:
