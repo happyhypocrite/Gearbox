@@ -1,42 +1,42 @@
-Gate,Parent_Gate,X_axis,Y_axis
-Lymphocytes,,FSC-A,SSC-A
-Single Cells1,Lymphocytes,FSC-H,FSC-A
-Single Cells2,Single Cells1,SSC-H,SSC-A
-Neutrophils,Single Cells2,BV750-A,Spark UV 387-A
-Non-neutrophil leukocytes,Single Cells2,BV750-A,Spark UV 387-A
-All other,Non-neutrophil leukocytes,StarBright Red 815-A,RY586-A
-Basophils,Non-neutrophil leukocytes,StarBright Red 815-A,RY586-A
-CD3+,All other,StarBright Red 775-A,BV711-A
-gdTCR,All other,StarBright Red 775-A,BV711-A
-Rest,All other,StarBright Red 775-A,BV711-A
-CD3+CD56-,CD3+,PE-Vio670-A,StarBright Violet 475-A
-NKTcells,CD3+,PE-Vio670-A,StarBright Violet 475-A
-Non-pDC,Rest,RY703-A,StarBright UV445-A
-B cells,Rest,PE-Fire 810-A,RY586-A
-FCE1RA- CD19-,Rest,PE-Fire 810-A,RY586-A
-mDCs,Rest,PE-Fire 810-A,RY586-A
-pDCs,Rest,RY703-A,StarBright UV445-A
-8+Tcells,CD3+CD56-,StarBright Violet 475-A,StarBright UV445-A
-CD4+Tcells,CD3+CD56-,StarBright Violet 475-A,StarBright UV445-A
-CD8+NKTcells,NKTcells,PE-Vio670-A,StarBright Violet 475-A
-CD8-NKTcells,NKTcells,PE-Vio670-A,StarBright Violet 475-A
-Eosinophils,Non-pDC,StarBright Violet 475-A,SSC-A
-Rest,Non-pDC,StarBright Violet 475-A,SSC-A
-"HLADR-, SSC-Alo subset",FCE1RA- CD19-,StarBright Red 815-A,SSC-A
-Monocytes,FCE1RA- CD19-,StarBright Red 815-A,SSC-A
-CD8+CD45RA+CD27+ Naive,8+Tcells,BUV661-A,StarBright Blue675-A
-CD8+CD45RA+CD27- TEMRA,8+Tcells,BUV661-A,StarBright Blue675-A
-CD8+CD45RA-CD27+ TCM,8+Tcells,BUV661-A,StarBright Blue675-A
-CD8+CD45RA-CD27- TEM,8+Tcells,BUV661-A,StarBright Blue675-A
-CD25+Tregs,CD4+Tcells,StarBright Violet 440-A,StarBright UV445-A
-CD25-CD4+Tcells,CD4+Tcells,StarBright Violet 440-A,StarBright UV445-A
-EarlyNK,"HLADR-, SSC-Alo subset",BUV496-A,PE-Vio670-A
-Mature NK,"HLADR-, SSC-Alo subset",BUV496-A,PE-Vio670-A
-Terminal NK,"HLADR-, SSC-Alo subset",BUV496-A,PE-Vio670-A
-cMo,Monocytes,BUV496-A,BUV563-A
-intMo,Monocytes,BUV496-A,BUV563-A
-ncMo,Monocytes,BUV496-A,BUV563-A
-CD4+Naive,CD25-CD4+Tcells,BUV661-A,StarBright Blue675-A
-CD4+TCM,CD25-CD4+Tcells,BUV661-A,StarBright Blue675-A
-CD4+TEM,CD25-CD4+Tcells,BUV661-A,StarBright Blue675-A
-CD4+TEMRA,CD25-CD4+Tcells,BUV661-A,StarBright Blue675-A
+Gate,Parent_Gate,X_Axis,Y_Axis,Is_Terminal,Path_ID,Path_Name,Step
+Lymphocytes,None,Dimension(id: FSC-A),Dimension(id: SSC-A),False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,0
+Single Cells1,Lymphocytes,Dimension(id: FSC-H),Dimension(id: FSC-A),False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,1
+Single Cells2,Single Cells1,Dimension(id: SSC-H),Dimension(id: SSC-A),False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,2
+Neutrophils,Single Cells2,Dimension(id: BV750-A),Dimension(id: Spark UV 387-A),True,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,3
+Non-neutrophil leukocytes,Single Cells2,Dimension(id: BV750-A),Dimension(id: Spark UV 387-A),False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,3
+All other,Non-neutrophil leukocytes,Dimension(id: StarBright Red 815-A),Dimension(id: RY586-A),False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,4
+CD3+,All other,Dimension(id: StarBright Red 775-A),Dimension(id: BV711-A),False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,5
+CD3+CD56-,CD3+,Dimension(id: PE-Vio670-A),Dimension(id: StarBright Violet 475-A),False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,6
+8+Tcells,CD3+CD56-,Dimension(id: StarBright Violet 475-A),Dimension(id: StarBright UV445-A),False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,7
+CD8+CD45RA+CD27+ Naive,8+Tcells,Dimension(id: BUV661-A),Dimension(id: StarBright Blue675-A),True,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,8
+CD8+CD45RA+CD27- TEMRA,8+Tcells,Dimension(id: BUV661-A),Dimension(id: StarBright Blue675-A),True,2,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27- TEMRA,8
+CD8+CD45RA-CD27+ TCM,8+Tcells,Dimension(id: BUV661-A),Dimension(id: StarBright Blue675-A),True,3,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA-CD27+ TCM,8
+CD8+CD45RA-CD27- TEM,8+Tcells,Dimension(id: BUV661-A),Dimension(id: StarBright Blue675-A),True,4,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA-CD27- TEM,8
+CD4+Tcells,CD3+CD56-,Dimension(id: StarBright Violet 475-A),Dimension(id: StarBright UV445-A),False,5,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25+Tregs,7
+CD25+Tregs,CD4+Tcells,Dimension(id: StarBright Violet 440-A),Dimension(id: StarBright UV445-A),True,5,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25+Tregs,8
+CD25-CD4+Tcells,CD4+Tcells,Dimension(id: StarBright Violet 440-A),Dimension(id: StarBright UV445-A),False,6,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+Naive,8
+CD4+Naive,CD25-CD4+Tcells,Dimension(id: BUV661-A),Dimension(id: StarBright Blue675-A),True,6,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+Naive,9
+CD4+TCM,CD25-CD4+Tcells,Dimension(id: BUV661-A),Dimension(id: StarBright Blue675-A),True,7,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+TCM,9
+CD4+TEM,CD25-CD4+Tcells,Dimension(id: BUV661-A),Dimension(id: StarBright Blue675-A),True,8,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+TEM,9
+CD4+TEMRA,CD25-CD4+Tcells,Dimension(id: BUV661-A),Dimension(id: StarBright Blue675-A),True,9,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+TEMRA,9
+NKTcells,CD3+,Dimension(id: PE-Vio670-A),Dimension(id: StarBright Violet 475-A),False,10,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> NKTcells -> CD8+NKTcells,6
+CD8+NKTcells,NKTcells,Dimension(id: PE-Vio670-A),Dimension(id: StarBright Violet 475-A),True,10,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> NKTcells -> CD8+NKTcells,7
+CD8-NKTcells,NKTcells,Dimension(id: PE-Vio670-A),Dimension(id: StarBright Violet 475-A),True,11,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> NKTcells -> CD8-NKTcells,7
+gdTCR,All other,Dimension(id: StarBright Red 775-A),Dimension(id: BV711-A),True,12,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> gdTCR,5
+Rest,All other,Dimension(id: StarBright Red 775-A),Dimension(id: BV711-A),False,13,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Eosinophils,5
+Non-pDC,Rest,Dimension(id: RY703-A),Dimension(id: StarBright UV445-A),False,13,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Eosinophils,6
+Eosinophils,Non-pDC,Dimension(id: StarBright Violet 475-A),Dimension(id: SSC-A),True,13,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Eosinophils,7
+Rest,Non-pDC,Dimension(id: StarBright Violet 475-A),Dimension(id: SSC-A),False,14,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> B cells,7
+B cells,Rest,Dimension(id: PE-Fire 810-A),Dimension(id: RY586-A),True,14,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> B cells,8
+FCE1RA- CD19-,Rest,Dimension(id: PE-Fire 810-A),Dimension(id: RY586-A),False,15,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> EarlyNK",8
+"HLADR-, SSC-Alo subset",FCE1RA- CD19-,Dimension(id: StarBright Red 815-A),Dimension(id: SSC-A),False,15,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> EarlyNK",9
+EarlyNK,"HLADR-, SSC-Alo subset",Dimension(id: BUV496-A),Dimension(id: PE-Vio670-A),True,15,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> EarlyNK",10
+Mature NK,"HLADR-, SSC-Alo subset",Dimension(id: BUV496-A),Dimension(id: PE-Vio670-A),True,16,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> Mature NK",10
+Terminal NK,"HLADR-, SSC-Alo subset",Dimension(id: BUV496-A),Dimension(id: PE-Vio670-A),True,17,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> Terminal NK",10
+Monocytes,FCE1RA- CD19-,Dimension(id: StarBright Red 815-A),Dimension(id: SSC-A),False,18,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> Monocytes -> cMo,9
+cMo,Monocytes,Dimension(id: BUV496-A),Dimension(id: BUV563-A),True,18,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> Monocytes -> cMo,10
+intMo,Monocytes,Dimension(id: BUV496-A),Dimension(id: BUV563-A),True,19,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> Monocytes -> intMo,10
+ncMo,Monocytes,Dimension(id: BUV496-A),Dimension(id: BUV563-A),True,20,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> Monocytes -> ncMo,10
+mDCs,Rest,Dimension(id: PE-Fire 810-A),Dimension(id: RY586-A),True,21,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> mDCs,8
+pDCs,Rest,Dimension(id: RY703-A),Dimension(id: StarBright UV445-A),True,22,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> pDCs,6
+Basophils,Non-neutrophil leukocytes,Dimension(id: StarBright Red 815-A),Dimension(id: RY586-A),True,23,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> Basophils,4

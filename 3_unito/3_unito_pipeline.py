@@ -13,7 +13,7 @@ import sys
 # from UNITO.UNITO_Train_Predict.Validation_Recon_Plot_Single import plot_all
 # from UNITO.UNITO_Train_Predict.Data_Preprocessing import process_table, train_test_val_split
 # from UNITO.UNITO_Train_Predict.Predict import UNITO_gating, evaluation
-from generate_gating_strategy import _parse_fcs_add_gate_label, _extract_gating_strategy
+from generate_gating_strategy import parse_fcs_add_gate_label, extract_gating_strategy, clean_gating_strategy
 warnings.filterwarnings("ignore")
 
 # For reproducibility
@@ -60,12 +60,13 @@ wsp_path = '/Users/user/Documents/test_wsp/WSP_22052025.wsp' # <- Set the path t
 wsp_files_path = '/Users/user/Documents/test_wsp/'
 
 #if __name__ == '__main__':
-#        _parse_fcs_add_gate_label(wsp_path, wsp_files_path, output_dir)
+#        parse_fcs_add_gate_label(wsp_path, wsp_files_path, output_dir)
 
 # 2c. Generate gating strategy from .wsp
 
 if __name__ == '__main__':
-    _extract_gating_strategy(wsp_path, wsp_files_path) #Add output_path arguement if you want the gating strat to go somewhere else. Otherwise easier in ./dir for Setting gates below.
+        extract_gating_strategy(wsp_path, wsp_files_path) #Add output_path arguement if you want the gating strat to go somewhere else. Otherwise easier in ./dir for Setting gates below.
+        clean_gating_strategy()
 
 # #3. Setting gates
 # gating = pd.read_csv('./gating_structure.csv') #<- Path to your gating structure.
