@@ -60,16 +60,22 @@ wsp_path = '/Users/user/Documents/test_wsp/WSP_22052025.wsp' # <- Set the path t
 wsp_files_path = '/Users/user/Documents/test_wsp/'
 
 #if __name__ == '__main__':
-#        parse_fcs_add_gate_label(wsp_path, wsp_files_path, output_dir)
+#        parse_fcs_add_gate_label(wsp_path, wsp_files_path, './')
 
 # 2c. Generate gating strategy from .wsp
 
 if __name__ == '__main__':
-        extract_gating_strategy(wsp_path, wsp_files_path) #Add output_path arguement if you want the gating strat to go somewhere else. Otherwise easier in ./dir for Setting gates below.
-        clean_gating_strategy()
+        gating_strategy = extract_gating_strategy(wsp_path, wsp_files_path) #Add output_path arguement if you want the gating strat to go somewhere else. Otherwise easier in ./dir for Setting gates below.
+
+        panel_meta = '/Volumes/grainger/Common/stroke_impact_smart_tube/computational_outputs/fcs_files/metadata_files/panel_metadata_all_batches.csv'
+        final_gating_strategy = clean_gating_strategy(panel_meta, gating_strategy)
+
+        out_file = os.path.join('./', "gating_strategy.csv")
+        final_gating_strategy.to_csv(out_file, index=False)
 
 # #3. Setting gates
-# gating = pd.read_csv('./gating_structure.csv') #<- Path to your gating structure.
+# gating = final_gating_strategy
+
 # gate_pre_list = list(gating.Parent_Gate)
 # gate_pre_list[0] = None # the first gate does not have parent gate
 # gate_list = list(gating.Gate)

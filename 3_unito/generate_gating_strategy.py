@@ -3,6 +3,7 @@ import flowkit as fk
 import pandas as pd
 import os
 from lxml import etree as ET
+import re
 
 def parse_fcs_add_gate_label(wsp_path, wsp_fcs_dir, csv_dir):
     """ Uses the converted and processed .csv files and the .fcs files that they origin from. 
@@ -185,14 +186,21 @@ def extract_gating_strategy(wsp_path, wsp_fcs_dir, output_path="./gating_structu
     # Dataframe cleanup
     df = df.drop_duplicates(subset=['Gate','Parent_Gate'], keep='first') #UNITO needs just one entry of a gate - this removes duplicates of earlier nodes created by the LCRS approach.
 
-    # Dataframe save
-    df.to_csv(output_path, index=False)
-    print(f"Gating strategy saved to {output_path}")
     return df
 
-def clean_gating_strategy(panel_metadata_path, gating_strat_path = "./gating_structure.csv"):
+def clean_gating_strategy(panel_metadata_path, gating_strat_df = None):
     """ Required in the absence of proper cytometry labels - uses batch correction panel file to correct X and Y axis labels from flurophore -> marker """
-# Panel metadata to dictionary
+    panel_metadata = pd.read_csv(panel_metadata_path)
+    gating_strat_df = gating_strat_df.copy()
 
-# if flurophore string in X_Axis or Y_Axis of df then replace flurophore with value (which is the antibody marker)
-        
+    for col in ['X_Axis', 'Y_Axis']:
+        gating_strat_df[col] = gating_strat_df[col].astype(str).str.extract(r'id:\s*([^)]*)', expand=False).str.strip()
+                                
+    channel_to_antigen = panel_metadata.set_index('Channel')['Antigen'].to_dict()
+    print(gating_strat_df)
+
+    gating_strat_df['X_Axis'] = gating_strat_df['X_Axis'].map(channel_to_antigen).fillna(gating_strat_df['X_Axis'])
+    gating_strat_df['Y_Axis'] = gating_strat_df['Y_Axis'].map(channel_to_antigen).fillna(gating_strat_df['Y_Axis'])
+
+    return gating_strat_df
+    
