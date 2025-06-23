@@ -1,4 +1,4 @@
-Gate,Parent_Gate,X_Axis,Y_Axis,Is_Terminal,Path_ID,Path_Name,Step
+Gate,Parent_Gate,X_axis,Y_axis,Is_Terminal,Path_ID,Path_Name,Step
 Lymphocytes,None,FSC-A,SSC-A,False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,0
 Single Cells1,Lymphocytes,FSC-H,FSC-A,False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,1
 Single Cells2,Single Cells1,SSC-H,SSC-A,False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,2
