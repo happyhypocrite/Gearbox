@@ -386,6 +386,18 @@ wheels = [
 ]
 
 [[package]]
+name = "fcswrite"
+version = "0.6.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8b/92/c9af73f159a780043b0d05516d14b86db7042003ba215a89d849712952d7/fcswrite-0.6.2.tar.gz", hash = "sha256:58a75e84e3f79775dc3d96a8df5805d9b0225bc5d843892f61a633a3ad9303d8", size = 16875, upload-time = "2022-10-11T08:44:01.016Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ac/c6/49c81ef887a2f8290f052ea5fd053ef8f1c75e926b03e3c295987b92bf1d/fcswrite-0.6.2-py2.py3-none-any.whl", hash = "sha256:adbbf02d65b212bb7a957eec7fa21123fd4aca27aae0cef330981fc24a9f2edd", size = 8812, upload-time = "2022-10-11T08:43:59.395Z" },
+]
+
+[[package]]
 name = "filelock"
 version = "3.18.0"
 source = { registry = "https://pypi.org/simple" }
@@ -469,6 +481,7 @@ dependencies = [
     { name = "albumentations" },
     { name = "dataset" },
     { name = "fcsparser" },
+    { name = "fcswrite" },
     { name = "flowkit" },
     { name = "pandas" },
     { name = "torchvision" },
@@ -479,6 +492,7 @@ requires-dist = [
     { name = "albumentations", specifier = ">=2.0.8" },
     { name = "dataset", specifier = ">=1.6.2" },
     { name = "fcsparser", specifier = ">=0.2.8" },
+    { name = "fcswrite", specifier = ">=0.6.2" },
     { name = "flowkit", specifier = ">=1.2.3" },
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "torchvision", specifier = ">=0.22.0" },
