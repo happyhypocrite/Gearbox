@@ -1,42 +1,5 @@
 Gate,Parent_Gate,X_axis,Y_axis,Is_Terminal,Path_ID,Path_Name,Step
-Lymphocytes,None,FSC-A,SSC-A,False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,0
-Single Cells1,Lymphocytes,FSC-H,FSC-A,False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,1
-Single Cells2,Single Cells1,SSC-H,SSC-A,False,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,2
-Neutrophils,Single Cells2,CD15,CD45,True,0,Lymphocytes -> Single Cells1 -> Single Cells2 -> Neutrophils,3
-Non-neutrophil leukocytes,Single Cells2,CD15,CD45,False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,3
-All other,Non-neutrophil leukocytes,HLADR,FCE1RA,False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,4
-CD3+,All other,CD3,TCRGD,False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,5
-CD3+CD56-,CD3+,CD56,CD8,False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,6
-8+Tcells,CD3+CD56-,CD8,CD4,False,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,7
-CD8+CD45RA+CD27+ Naive,8+Tcells,CD27,CD45RA,True,1,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27+ Naive,8
-CD8+CD45RA+CD27- TEMRA,8+Tcells,CD27,CD45RA,True,2,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA+CD27- TEMRA,8
-CD8+CD45RA-CD27+ TCM,8+Tcells,CD27,CD45RA,True,3,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA-CD27+ TCM,8
-CD8+CD45RA-CD27- TEM,8+Tcells,CD27,CD45RA,True,4,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> 8+Tcells -> CD8+CD45RA-CD27- TEM,8
-CD4+Tcells,CD3+CD56-,CD8,CD4,False,5,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25+Tregs,7
-CD25+Tregs,CD4+Tcells,CD25,CD4,True,5,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25+Tregs,8
-CD25-CD4+Tcells,CD4+Tcells,CD25,CD4,False,6,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+Naive,8
-CD4+Naive,CD25-CD4+Tcells,CD27,CD45RA,True,6,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+Naive,9
-CD4+TCM,CD25-CD4+Tcells,CD27,CD45RA,True,7,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+TCM,9
-CD4+TEM,CD25-CD4+Tcells,CD27,CD45RA,True,8,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+TEM,9
-CD4+TEMRA,CD25-CD4+Tcells,CD27,CD45RA,True,9,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> CD3+CD56- -> CD4+Tcells -> CD25-CD4+Tcells -> CD4+TEMRA,9
-NKTcells,CD3+,CD56,CD8,False,10,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> NKTcells -> CD8+NKTcells,6
-CD8+NKTcells,NKTcells,CD56,CD8,True,10,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> NKTcells -> CD8+NKTcells,7
-CD8-NKTcells,NKTcells,CD56,CD8,True,11,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> CD3+ -> NKTcells -> CD8-NKTcells,7
-gdTCR,All other,CD3,TCRGD,True,12,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> gdTCR,5
-Rest,All other,CD3,TCRGD,False,13,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Eosinophils,5
-Non-pDC,Rest,CD123,CD4,False,13,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Eosinophils,6
-Eosinophils,Non-pDC,CD8,SSC-A,True,13,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Eosinophils,7
-Rest,Non-pDC,CD8,SSC-A,False,14,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> B cells,7
-B cells,Rest,CD19,FCE1RA,True,14,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> B cells,8
-FCE1RA- CD19-,Rest,CD19,FCE1RA,False,15,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> EarlyNK",8
-"HLADR-, SSC-Alo subset",FCE1RA- CD19-,HLADR,SSC-A,False,15,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> EarlyNK",9
-EarlyNK,"HLADR-, SSC-Alo subset",CD16,CD56,True,15,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> EarlyNK",10
-Mature NK,"HLADR-, SSC-Alo subset",CD16,CD56,True,16,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> Mature NK",10
-Terminal NK,"HLADR-, SSC-Alo subset",CD16,CD56,True,17,"Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> HLADR-, SSC-Alo subset -> Terminal NK",10
-Monocytes,FCE1RA- CD19-,HLADR,SSC-A,False,18,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> Monocytes -> cMo,9
-cMo,Monocytes,CD16,CD14,True,18,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> Monocytes -> cMo,10
-intMo,Monocytes,CD16,CD14,True,19,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> Monocytes -> intMo,10
-ncMo,Monocytes,CD16,CD14,True,20,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> FCE1RA- CD19- -> Monocytes -> ncMo,10
-mDCs,Rest,CD19,FCE1RA,True,21,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> Non-pDC -> Rest -> mDCs,8
-pDCs,Rest,CD123,CD4,True,22,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> All other -> Rest -> pDCs,6
-Basophils,Non-neutrophil leukocytes,HLADR,FCE1RA,True,23,Lymphocytes -> Single Cells1 -> Single Cells2 -> Non-neutrophil leukocytes -> Basophils,4
+Lymphocytes,None,FSC-A,SSC-A,False,0,Lymphocytes -> Single Cells1 -> Neutrophils,0
+Single Cells1,Lymphocytes,FSC-H,FSC-A,False,0,Lymphocytes -> Single Cells1 -> Neutrophils,1
+Neutrophils,Single Cells1,CD15,CD45,True,0,Lymphocytes -> Single Cells1 -> Neutrophils,2
+Non-neutrophil leukocytes,Single Cells1,CD15,CD45,True,1,Lymphocytes -> Single Cells1 -> Non-neutrophil leukocytes,2
