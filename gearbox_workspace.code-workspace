@@ -5,6 +5,8 @@
 		}
 	],
 	"settings": {
-		"r.lsp.promptToInstall": false
+    "r.lsp.promptToInstall": false,
+    "ruff.enable": true,
+    "ruff.configPath": "pyproject.toml"
 	}
 }
