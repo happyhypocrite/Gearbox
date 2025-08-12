@@ -1025,6 +1025,7 @@ dependencies = [
     { name = "pytometry", version = "0.1.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "pytometry", version = "0.1.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "torchvision" },
+    { name = "umap-learn" },
     { name = "unito" },
 ]
 
@@ -1043,6 +1044,7 @@ requires-dist = [
     { name = "pyarrow", specifier = ">=20.0.0" },
     { name = "pytometry", specifier = ">=0.1.4" },
     { name = "torchvision", specifier = ">=0.22.0" },
+    { name = "umap-learn", specifier = ">=0.5.9.post2" },
     { name = "unito", git = "https://github.com/happyhypocrite/UNITO" },
 ]
 
